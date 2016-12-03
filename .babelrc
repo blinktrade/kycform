@@ -1,0 +1,14 @@
+{
+  "presets": ["es2015", "stage-0", "react"],
+  "plugins": [
+    ["react-intl", {
+      "messagesDir": "./.i18n",
+      "enforceDescriptions": false
+    }],
+  ],
+  "env": {
+    "development": {
+      "presets": ["react-hmre"]
+    }
+  }
+}
