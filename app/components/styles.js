@@ -37,7 +37,6 @@ export default StyleSheet.create({
     marginLeft: 6,
     display: 'block',
     color: 'grey',
-    textTransform: 'capitalize',
   },
   separator: {
     marginLeft: 4,

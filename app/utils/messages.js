@@ -76,6 +76,11 @@ export default defineMessages({
     description: 'Photo ID',
     defaultMessage: 'Passaport, National ID, Driver License',
   },
+  photoCnic: {
+    id: 'field.photoid.cnic',
+    description: 'Photo CNIC',
+    defaultMessage: 'Copy of your CNIC and a picture of yourself holding your CNIC',
+  },
   photoBill: {
     id: 'field.photobill.photobill',
     description: 'Photo Bill',
@@ -96,6 +101,11 @@ export default defineMessages({
     id: 'field.nationalid.nationalId',
     description: 'National ID',
     defaultMessage: 'National ID',
+  },
+  cnic: {
+    id: 'field.nationalid.cnic',
+    description: 'CNIC',
+    defaultMessage: 'CNIC',
   },
   rut: {
     id: 'field.nationalid.rut',
@@ -157,6 +167,11 @@ export default defineMessages({
     id: 'group.signature',
     description: 'Signature',
     defaultMessage: 'Signature',
+  },
+  cnicGroup: {
+    id: 'group.cnic',
+    description: 'CNIC Group',
+    defaultMessage: 'CNIC',
   },
   rutGroup: {
     id: 'group.rut',
