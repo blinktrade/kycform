@@ -71,11 +71,6 @@ export default defineMessages({
     description: 'Zip Code',
     defaultMessage: 'Zip Code',
   },
-  nationalId: {
-    id: 'field.nationalid.nationalid',
-    description: 'National ID',
-    defaultMessage: 'National ID',
-  },
   photoId: {
     id: 'field.photoid.photoid',
     description: 'Photo ID',
@@ -96,6 +91,28 @@ export default defineMessages({
     description: 'Country',
     defaultMessage: 'Country',
   },
+  // id fields
+  nationalId: {
+    id: 'field.nationalid.nationalId',
+    description: 'National ID',
+    defaultMessage: 'National ID',
+  },
+  rut: {
+    id: 'field.nationalid.rut',
+    description: 'Numero de su RUT',
+    defaultMessage: 'Numero de su RUT',
+  },
+  ci: {
+    id: 'field.nationalid.ci',
+    description: 'Cédula de Identidad',
+    defaultMessage: 'Cédula de Identidad o numero del RIF',
+  },
+  cpf_cnpj: {
+    id: 'field.nationalid.cpf_cnpj',
+    description: 'CPF CNPJ',
+    defaultMessage: 'Número de seu CPF ou CNPJ',
+  },
+  // Field Groups
   nameGroup: {
     id: 'group.name',
     description: 'Name',
@@ -140,6 +157,21 @@ export default defineMessages({
     id: 'group.signature',
     description: 'Signature',
     defaultMessage: 'Signature',
+  },
+  rutGroup: {
+    id: 'group.rut',
+    description: 'RUT Group',
+    defaultMessage: 'RUT',
+  },
+  cpf_cnpjGroup: {
+    id: 'group.cpf_cnpj',
+    description: 'CPF CNPJ Group',
+    defaultMessage: 'CPF ou CNPJ',
+  },
+  ciGroup: {
+    id: 'group.ci',
+    description: 'CI Group',
+    defaultMessage: 'Documento de identificación',
   },
   errorMissingInvalid: {
     id: 'error.missingorinvalid',

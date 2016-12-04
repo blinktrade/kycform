@@ -5,17 +5,20 @@ import FieldGroup from './FieldGroup';
 
 import { validateAll } from '../utils/validationUtils';
 
-const name = 'nationalId';
+let fieldName;
 
-const FieldNationalID = ({ required }) => (
-  <FieldGroup name="nationalIdGroup" required={required} fields={[name]}>
-    <Field
-      size={6}
-      name={name}
-    />
-  </FieldGroup>
-);
+const FieldNationalID = ({ required, name }) => {
+  fieldName = name;
+  return (
+    <FieldGroup name={`${name}Group`} required={required} fields={[name]}>
+      <Field
+        size={6}
+        name={name}
+      />
+    </FieldGroup>
+  );
+};
 
-FieldNationalID.validate = values => validateAll(values)([name]);
+FieldNationalID.validate = values => validateAll(values)([fieldName]);
 
 export default FieldNationalID;

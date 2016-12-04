@@ -16,7 +16,7 @@ const FormBlinkTrade = ({ fields }) => fields(
     <FieldBirthday />
     <FieldPhoneNumber />
     <FieldAddress />
-    <FieldNationalID />
+    <FieldNationalID name="nationalId" />
     <FieldPhotoID />
     <FieldPhotoSelf />
     <FieldSignature />

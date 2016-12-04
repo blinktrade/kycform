@@ -47,7 +47,7 @@ const FormFoxBit = ({ fields }) => fields(
     <FieldBirthday />
     <FieldPhoneNumber />
     <FieldAddress />
-    <FieldNationalID />
+    <FieldNationalID name="cpf_cnpj" />
     <FieldSelect
       data={media}
       required={false}

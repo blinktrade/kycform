@@ -5,7 +5,6 @@ import {
   FieldBirthday,
   FieldPhoneNumber,
   FieldAddress,
-  FieldNationalID,
   FieldPhotoID,
   FieldPhotoSelf,
   FieldLanguage,
@@ -26,7 +25,6 @@ const FormVBTC = ({ fields }) => fields(
     <FieldBirthday />
     <FieldPhoneNumber />
     <FieldAddress />
-    <FieldNationalID />
     <FieldPhotoID />
     <FieldPhotoSelf />
   </div>

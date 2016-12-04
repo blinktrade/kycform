@@ -89,6 +89,7 @@ export default {
 
   submit: (req, res) => {
     const reqId = parseInt(1e7 * Math.random(), 10);
+
     const msg = {
       MsgType: 'B8',
       VerifyCustomerReqID: reqId,
@@ -114,6 +115,7 @@ export default {
         },
         phone_number: R.concat(req.body.countryCode, req.body.areaCode, req.body.number),
         date_of_birth: R.join('-', [req.body.year, req.body.month, req.body.day]),
+        identification: R.pick(R.split(',', req.body.idFields), req.body),
       },
       Verify: 1,
     };

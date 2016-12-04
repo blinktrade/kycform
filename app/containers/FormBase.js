@@ -16,7 +16,9 @@ import ErrorMessage from '../components/ErrorMessage';
 
 import * as Forms from './Forms';
 
+const idFields = [];
 const validateFields = {};
+
 let reduxValidate = () => ({});
 
 class FormBase extends Component {
@@ -56,7 +58,7 @@ class FormBase extends Component {
     if (R.not(R.isEmpty(errors))) {
       // Invoke sync errors directly on submit
       return this.props.dispatch({
-        type: 'redux-form/UPDATE_SYNC_ERRORS',
+        type: '@@redux-form/UPDATE_SYNC_ERRORS',
         meta: { form: 'verification' },
         payload: { syncErrors: errors },
       });
@@ -67,7 +69,7 @@ class FormBase extends Component {
 
     R.mapObjIndexed((value, key) => formData.append(key, value), values);
     formData.append('fileFields', fileFields);
-    formData.append('fileSignature', {});
+    formData.append('idFields', idFields);
 
     return fetch('/api/verify', {
       body: formData,
@@ -90,9 +92,13 @@ class FormBase extends Component {
     return (
       <ul className={css(styles.formContainer)}>
         {React.Children.map(fields, (Field) => {
-          if (Field.props.required !== false) {
-            const { name, validate } = Field.type;
+          const { props, type } = Field;
+          const { name, validate } = type;
+          if (props.required !== false) {
             validateFields[name] = R.defaultTo(R.always)(validate);
+          }
+          if (name === 'FieldNationalID') {
+            idFields.push(props.name);
           }
           return Field;
         })}
