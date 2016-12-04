@@ -7,12 +7,13 @@ import { validateAll } from '../utils/validationUtils';
 
 const name = 'photoId';
 
-const FieldPhotoID = ({ required }) => (
+const FieldPhotoID = ({ required, description }) => (
   <FieldGroup name="photoIdGroup" required={required} fields={[name]}>
     <Field
       size={6}
       type="file"
       name={name}
+      description={description}
     />
   </FieldGroup>
 );

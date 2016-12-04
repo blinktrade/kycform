@@ -19,6 +19,7 @@ class FieldBase extends Component {
   static propTypes = {
     type: PropTypes.string,
     name: PropTypes.string.isRequired,
+    description: PropTypes.string,
     component: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -48,9 +49,11 @@ class FieldBase extends Component {
     return <span className={css(SharedStyles.separator)}>-</span>;
   }
 
-  renderSubLabel(id, name) {
+  renderSubLabel(id) {
+    const { name, description } = this.props;
     const { formatMessage } = this.context.intl;
-    const message = i18n[name] ? formatMessage(i18n[name]) : name;
+    const i18nMessage = description || name;
+    const message = i18n[i18nMessage] ? formatMessage(i18n[i18nMessage]) : name;
     return (
       <label className={css(SharedStyles.subLabel)} htmlFor={id}>
         {message}
@@ -99,7 +102,7 @@ class FieldBase extends Component {
           data={data}
           component={component}
         />
-        {renderSubLabel && this.renderSubLabel(id, name)}
+        {renderSubLabel && this.renderSubLabel(id)}
       </div>
     );
   }
