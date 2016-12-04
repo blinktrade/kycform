@@ -97,7 +97,10 @@ class FormBase extends Component {
           if (props.required !== false) {
             validateFields[name] = R.defaultTo(R.always)(validate);
           }
-          if (name === 'FieldNationalID') {
+          if (R.and(
+            R.equals('FieldNationalID', name),
+            R.not(R.contains(props.name, idFields))
+          )) {
             idFields.push(props.name);
           }
           return Field;
