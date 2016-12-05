@@ -199,4 +199,65 @@ export default defineMessages({
     description: 'Error file size',
     defaultMessage: '{name} should be less than 10 MB',
   },
+  // Months
+  January: {
+    id: 'month.january',
+    description: 'January',
+    defaultMessage: 'January',
+  },
+  February: {
+    id: 'month.february',
+    description: 'February',
+    defaultMessage: 'February',
+  },
+  March: {
+    id: 'month.march',
+    description: 'March',
+    defaultMessage: 'March',
+  },
+  April: {
+    id: 'month.april',
+    description: 'April',
+    defaultMessage: 'April',
+  },
+  May: {
+    id: 'month.may',
+    description: 'May',
+    defaultMessage: 'May',
+  },
+  June: {
+    id: 'month.june',
+    description: 'June',
+    defaultMessage: 'June',
+  },
+  July: {
+    id: 'month.july',
+    description: 'July',
+    defaultMessage: 'July',
+  },
+  August: {
+    id: 'month.august',
+    description: 'August',
+    defaultMessage: 'August',
+  },
+  September: {
+    id: 'month.september',
+    description: 'September',
+    defaultMessage: 'September',
+  },
+  October: {
+    id: 'month.october',
+    description: 'October',
+    defaultMessage: 'October',
+  },
+  November: {
+    id: 'month.november',
+    description: 'November',
+    defaultMessage: 'November',
+  },
+  December: {
+    id: 'month.december',
+    description: 'December',
+    defaultMessage: 'December',
+  },
 });
