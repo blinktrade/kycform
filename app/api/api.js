@@ -2,6 +2,7 @@ import R from 'ramda';
 import path from 'path';
 import multer from 'multer';
 import uuid from 'uuid';
+import sjcl from 'sjcl';
 import fetch from 'node-fetch';
 import bucket from '../storage';
 import config from '../constants/config';
@@ -30,6 +31,13 @@ export default {
   }),
 
   upload: (req, res, next) => {
+    let filesSaved = 0;
+    const totalFiles = R.compose(
+      R.prop('length'),
+      R.flatten,
+      R.values,
+    )(req.files);
+
     const missingFiles = R.difference(
       R.split(',', req.body.fileFields),
       R.keys(req.files)
@@ -44,8 +52,8 @@ export default {
       });
     }
 
-    R.values(req.files).map((files, fieldIndex) => {
-      files.map((file, fileIndex) => {
+    R.values(req.files).map((files) => {
+      files.map((file) => {
         if (file.size >= 10485760) {
           return res.status(400).json({
             error: {
@@ -76,10 +84,9 @@ export default {
 
         blobStream.on('finish', () => {
           const blobName = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+          filesSaved = R.inc(filesSaved);
           req.body.uploaded_files = R.append(blobName, req.body.uploaded_files);
-          if (fieldIndex === R.keys(req.files).length - 1 && fileIndex === files.length - 1) {
-            return next();
-          }
+          return filesSaved === totalFiles ? next() : null;
         });
 
         blobStream.end(file.buffer);
@@ -93,12 +100,12 @@ export default {
     const msg = {
       MsgType: 'B8',
       VerifyCustomerReqID: reqId,
-      ClientID: req.body.user_id,
-      BrokerID: req.body.broker_id,
+      ClientID: parseInt(req.body.user_id),
+      BrokerID: parseInt(req.body.broker_id),
       VerificationData: {
         formID: req.body.broker_id,
         submissionID: reqId,
-        created_at: Date.now().toString().slice(0, 10),
+        created_at: parseInt(Date.now().toString().slice(0, 10)),
         name: {
           first: req.body.firstName,
           middle: req.body.middleName,
@@ -113,6 +120,7 @@ export default {
           country: req.body.country,
           country_code: R.find(R.propEq('name', req.body.country))(countries).code,
         },
+        uploaded_files: req.body.uploaded_files,
         phone_number: R.concat(req.body.countryCode, req.body.areaCode, req.body.number),
         date_of_birth: R.join('-', [req.body.year, req.body.month, req.body.day]),
         identification: R.pick(R.split(',', req.body.idFields), req.body),
@@ -121,15 +129,27 @@ export default {
     };
 
     const { endpoint } = req.body.testnet ? config.test : config.prod;
+    const timeStamp = Date.now().toString();
+
+    const { API_KEY, API_SECRET } = process.env;
+    const hexKey = sjcl.codec.utf8String.toBits(API_SECRET);
+    const hmac = new sjcl.misc.hmac(hexKey, sjcl.hash.sha256);
+    const Signature = sjcl.codec.hex.fromBits(hmac.encrypt(timeStamp));
 
     fetch(endpoint, {
       body: JSON.stringify(msg),
       method: 'POST',
-    }).then((data) => {
-      console.log(data);
-      return res.json({
-        success: true,
+      headers: {
+        'Content-Type': 'application/json',
+        Nonce: timeStamp,
+        APIKey: API_KEY,
+        Signature,
+      },
+    }).then(response => response.json())
+      .then((data) => {
+        return data.Status === 200
+          ? res.status(200).json(data.Responses)
+          : res.status(500).json(data.Description);
       });
-    }).catch(console.log);
   },
 };

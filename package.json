@@ -43,6 +43,7 @@
     "redux-actions": "^1.1.0",
     "redux-form": "^6.2.0",
     "redux-thunk": "^2.1.0",
+    "sjcl": "^1.0.6",
     "webpack": "2.1.0-beta.27",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-hot-middleware": "^2.13.2",
