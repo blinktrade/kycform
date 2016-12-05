@@ -3,6 +3,7 @@ import React, {
   PropTypes,
 } from 'react';
 
+import R from 'ramda';
 import { intlShape } from 'react-intl';
 import { css } from 'aphrodite';
 import { Field } from 'redux-form';
@@ -62,9 +63,17 @@ class FieldBase extends Component {
   }
 
   renderOptions(option, index) {
+    const { formatMessage } = this.context.intl;
+
+    const isObject = R.is(Object);
+    const opt = R.ifElse(isObject, R.prop('option'), R.identity)(option);
+    const value = R.ifElse(isObject, R.prop('value'), R.identity)(option);
+
     return index === 0
-      ? <option key={option} />
-      : <option key={option} value={option}>{option}</option>;
+      ? <option key={opt} />
+      : <option key={opt} value={value}>
+        {i18n[opt] ? formatMessage(i18n[opt]) : opt}
+      </option>;
   }
 
   renderField({ input, id, name, size, type, data }) {
@@ -81,7 +90,10 @@ class FieldBase extends Component {
           name={name}
           className={css(SharedStyles.input, SharedStyles[inputSize])}
         >
-          {data && data.map(this.renderOptions)}
+          {R.when(
+            R.complement(R.isNil),
+            R.compose(x => x.map(this.renderOptions), R.insert(0, ''))
+          )(data)}
         </FormComponent>
         {renderSeparator && this.renderSeparator()}
       </div>

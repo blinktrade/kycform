@@ -8,18 +8,18 @@ import FieldGroup from './FieldGroup';
 import { validateAll } from '../utils/validationUtils';
 
 const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
+  { value: '01', option: 'January' },
+  { value: '02', option: 'February' },
+  { value: '03', option: 'March' },
+  { value: '04', option: 'April' },
+  { value: '05', option: 'May' },
+  { value: '06', option: 'June' },
+  { value: '07', option: 'July' },
+  { value: '08', option: 'August' },
+  { value: '09', option: 'September' },
+  { value: '10', option: 'October' },
+  { value: '11', option: 'November' },
+  { value: '12', option: 'December' },
 ];
 
 const year = new Date().getFullYear();
