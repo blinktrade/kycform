@@ -28,8 +28,13 @@ to provide authentication to use Google Cloud APIs:
 
 Then set environment variables before starting your application:
 
+    export API_KEY=<blinktrade-api-key>
+    export API_SECRET=<blinktrade-api-secret>
+
     export GCLOUD_PROJECT=<your-project-id>
     export GCLOUD_STORAGE_BUCKET=<your-bucket-name>
+
+    export DROPBOX_ACCESS_TOKEN=<dropbox-access-token>
 
     npm install
     npm run dev
