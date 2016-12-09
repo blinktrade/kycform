@@ -4,11 +4,14 @@ import multer from 'multer';
 import uuid from 'uuid';
 import sjcl from 'sjcl';
 import fetch from 'node-fetch';
+import Dropbox from 'dropbox';
+
 import bucket from '../storage';
 import config from '../constants/config';
 import countries from '../utils/countries';
 import i18n from '../utils/messages';
 
+const dbx = new Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN })
 const extensions = ['.jpg', '.jpeg', '.png', '.pdf', '.doc'];
 
 export default {
@@ -70,11 +73,13 @@ export default {
           R.concat(uuid.v4().split('-')[4], path.extname(file.originalname)),
         ]);
 
-        const blob = bucket.file(path.join(
+        const fullPath = path.join(
           req.body.broker_username,
           req.body.username,
-          '/'
-        ) + filename);
+          filename
+        );
+
+        const blob = bucket.file(fullPath);
 
         const blobStream = blob.createWriteStream();
 
@@ -83,9 +88,11 @@ export default {
         });
 
         blobStream.on('finish', () => {
-          const blobName = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+          const blobName = path.join(bucket.name, blob.name);
+          const blobPath = path.join('https://storage.googleapis.com', blobName);
           filesSaved = R.inc(filesSaved);
-          req.body.uploaded_files = R.append(blobName, req.body.uploaded_files);
+          req.body.uploaded_files = R.append(blobPath, req.body.uploaded_files);
+          dbx.filesUpload({ path: `/${blob.name}`, contents: file.buffer });
           return filesSaved === totalFiles ? next() : null;
         });
 
