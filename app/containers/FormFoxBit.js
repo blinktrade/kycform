@@ -13,6 +13,8 @@ import {
   FieldLanguage,
 } from '../components';
 
+import FormBase from './FormBase';
+
 const media = [
   'Campus Party',
   'Facebook',
@@ -39,8 +41,8 @@ const languages = [
   { key: 'pt', value: 'Portugues' },
 ];
 
-const FormFoxBit = ({ fields }) => fields(
-  <div>
+const FormFoxBit = () => (
+  <FormBase>
     <FieldLanguage languages={languages} />
     <Title title={title} subtitle={subtitle} />
     <FieldName />
@@ -57,7 +59,7 @@ const FormFoxBit = ({ fields }) => fields(
     <FieldPhotoSelf />
     <Description text={description1} />
     <Description text={description2} />
-  </div>
+  </FormBase>
 );
 
 export default FormFoxBit;

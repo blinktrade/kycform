@@ -1,5 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
+import type { Node } from 'react';
 
 import R from 'ramda';
 
@@ -9,56 +10,36 @@ import { IntlProvider } from 'react-intl';
 import { StyleSheet, css } from 'aphrodite';
 
 import locales from '../utils/locales';
+import { validateForm } from '../utils/validationUtils';
 import Submit from '../components/Submit';
 import ErrorMessage from '../components/ErrorMessage';
 
-import * as Forms from './Forms';
-
 const idFields = [];
 const validateFields = {};
-
-let reduxValidate = (values) => ({});
 
 type Props = {
   app: Object,
   submitting: boolean,
   handleSubmit: Function,
   dispatch: Function,
+  children: Node,
 };
 
 type State = {
   hasError: boolean,
-  errorFields: any,
-  errorMessage: any,
+  errorFields: Array<any>,
+  errorMessage: Object,
 };
 
 class FormBase extends Component<Props, State> {
-  constructor(props) {
-    super(props);
-
-    reduxValidate = this.validate.bind(this);
-    this.submit = this.submit.bind(this);
-  }
-
   state = {
     hasError: false,
     errorFields: [],
     errorMessage: {},
   };
 
-  validate(values) {
-    const mergeErrors = R.compose(
-      R.mergeAll,
-      R.values,
-      R.map(x => x(values))
-    );
-
-    const errors = mergeErrors(validateFields);
-    return errors;
-  }
-
-  submit(values) {
-    const errors = this.validate(values);
+  onSubmit = (values) => {
+    const errors = validateForm(values, validateFields);
 
     if (R.not(R.isEmpty(errors))) {
       // Invoke sync errors directly on submit
@@ -73,69 +54,80 @@ class FormBase extends Component<Props, State> {
     const fileFields = R.compose(R.keys, R.filter(R.is(File)))(values);
 
     R.mapObjIndexed((value, key) => formData.append(key, value), values);
-    formData.append('fileFields', fileFields);
-    formData.append('idFields', idFields);
+    formData.append('fileFields', fileFields.join(','));
+    formData.append('idFields', idFields.join(','));
 
     return fetch('/api/verify', {
       body: formData,
       method: 'POST',
-    }).then(res => res.json())
-      .then(res => {
-        console.log(res);
-        if (res.error) {
-          this.setState({
-            hasError: true,
-            errorFields: res.error.fields,
-            errorMessage: res.error.message,
-          });
-        }
-      });
+    })
+    .then(res => res.json())
+    .then(res => {
+      if (res.error) {
+        this.setState({
+          hasError: true,
+          errorFields: res.error.fields,
+          errorMessage: res.error.message,
+        });
+      }
+    });
   }
 
-  renderFields(child) {
-    const fields = child.props.children;
+  renderErrorMessages() {
+    const { hasError, errorMessage, errorFields } = this.state;
+    return hasError && errorFields && (
+      <ErrorMessage message={errorMessage} values={errorFields} />
+    );
+  }
+
+  renderField(Field) {
+    const { props, type } = Field;
+    const { name, validate } = type;
+    if (props.required !== false && validate) {
+      validateFields[name] = validate;
+    }
+
+    if (R.equals('FieldNationalID', name) && !R.contains(props.name, idFields)) {
+      idFields.push(props.name);
+    }
+
+    return Field;
+  }
+
+  renderFields() {
+    const { children } = this.props;
     return (
       <ul className={css(styles.formContainer)}>
-        {React.Children.map(fields, (Field) => {
-          const { props, type } = Field;
-          const { name, validate } = type;
-          if (props.required !== false) {
-            validateFields[name] = R.defaultTo(R.always)(validate);
-          }
-          if (R.and(
-            R.equals('FieldNationalID', name),
-            R.not(R.contains(props.name, idFields))
-          )) {
-            idFields.push(props.name);
-          }
-          return Field;
-        })}
+        {React.Children.map(children, this.renderField)}
       </ul>
     );
   }
 
-  renderForm(SelectedForm) {
-    const { hasError, errorMessage, errorFields } = this.state;
-    const { handleSubmit, submitting } = this.props;
+  renderSubmitButton() {
+    const { submitting } = this.props;
     return (
-      <form encType="multipart/form-data" onSubmit={handleSubmit(this.submit)}>
-        {hasError && errorFields && <ErrorMessage message={errorMessage} values={errorFields} />}
-        <SelectedForm fields={this.renderFields} />
-        <Submit submitting={submitting} />
+      <Submit submitting={submitting} />
+    );
+  }
+
+  renderForm() {
+    return (
+      <form encType="multipart/form-data" onSubmit={this.props.handleSubmit(this.onSubmit)}>
+        {this.renderErrorMessages()}
+        {this.renderFields()}
+        {this.renderSubmitButton()}
       </form>
     );
   }
 
   render() {
-    const { app } = this.props;
-    const { lang } = app;
+    const { lang } = this.props.app;
     return (
       <IntlProvider
         key={lang}
         locale={lang}
-        messages={locales[lang]}
-      >
-        {this.renderForm(Forms[app.form])}
+        messages={locales[lang]}>
+        {this.renderForm()}
       </IntlProvider>
     );
   }
@@ -143,7 +135,7 @@ class FormBase extends Component<Props, State> {
 
 FormBase = reduxForm({
   form: 'verification',
-  validate: values => reduxValidate(values),
+  validate: values => validateForm(values, validateFields),
 })(FormBase);
 
 const styles = StyleSheet.create({

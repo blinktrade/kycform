@@ -50,7 +50,7 @@ export default function (req, res) {
         key={lang}
         locale={lang}
         messages={locales[lang]}>
-        <App />
+        <App form={app.form} />
       </IntlProvider>
     </Provider>
   ));

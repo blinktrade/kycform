@@ -10,6 +10,8 @@ import {
   FieldLanguage,
 } from '../components';
 
+import FormBase from './FormBase';
+
 const title = '20.000₫ for every new verified user';
 
 const languages = [
@@ -17,8 +19,8 @@ const languages = [
   { key: 'vi', value: 'Vietnamese' },
 ];
 
-const FormVBTC = ({ fields }) => fields(
-  <div>
+const FormVBTC = () => (
+  <FormBase>
     <FieldLanguage languages={languages} />
     <Title title={title} />
     <FieldName />
@@ -27,7 +29,7 @@ const FormVBTC = ({ fields }) => fields(
     <FieldAddress />
     <FieldPhotoID />
     <FieldPhotoSelf />
-  </div>
+  </FormBase>
 );
 
 export default FormVBTC;

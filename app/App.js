@@ -1,13 +1,16 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-import Form from './containers/FormBase';
+import * as Forms from './containers/Forms';
 
-const App = () => (
-  <div className={css(styles.container)}>
-    <Form />
-  </div>
-);
+const App = ({ form }) => {
+  const Form = Forms[form];
+  return (
+    <div className={css(styles.container)}>
+      <Form kkk={form} />
+    </div>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

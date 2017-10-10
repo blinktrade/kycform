@@ -10,8 +10,10 @@ import {
   FieldSignature,
 } from '../components';
 
-const FormUrdubit = ({ fields }) => fields(
-  <div>
+import FormBase from './FormBase';
+
+const FormUrdubit = () => (
+  <FormBase>
     <FieldName />
     <FieldBirthday />
     <FieldPhoneNumber />
@@ -20,7 +22,7 @@ const FormUrdubit = ({ fields }) => fields(
     <FieldPhotoID description="photoCnic" />
     <FieldPhotoBill />
     <FieldSignature />
-  </div>
+  </FormBase>
 );
 
 export default FormUrdubit;

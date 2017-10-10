@@ -10,8 +10,10 @@ import {
   FieldSignature,
 } from '../components';
 
-const FormBlinkTrade = ({ fields }) => fields(
-  <div>
+import FormBase from './FormBase';
+
+const FormBlinkTrade = () => (
+  <FormBase>
     <FieldName />
     <FieldBirthday />
     <FieldPhoneNumber />
@@ -20,7 +22,7 @@ const FormBlinkTrade = ({ fields }) => fields(
     <FieldPhotoID />
     <FieldPhotoSelf />
     <FieldSignature />
-  </div>
+  </FormBase>
 );
 
 export default FormBlinkTrade;
