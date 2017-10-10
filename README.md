@@ -39,6 +39,10 @@ Then set environment variables before starting your application:
     npm install
     npm run dev
 
+Open your browser with those repective parameters:
+
+`http://localhost:8080/?user_id=90000000&username=username&broker_id=4&broker_username=foxbit&email=email@gmail.com&phoneNumber[country]=55&address[state]=SP&address[country]=Brazil`
+
 # LICENSE
 
 [GPLv3](./LICENSE)
