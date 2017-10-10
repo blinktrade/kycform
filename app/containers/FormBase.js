@@ -1,7 +1,5 @@
-import React, {
-  Component,
-  PropTypes,
-} from 'react';
+/* @flow */
+import React, { Component } from 'react';
 
 import R from 'ramda';
 
@@ -19,15 +17,22 @@ import * as Forms from './Forms';
 const idFields = [];
 const validateFields = {};
 
-let reduxValidate = () => ({});
+let reduxValidate = (values) => ({});
 
-class FormBase extends Component {
-  static propTypes = {
-    app: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired,
-  };
+type Props = {
+  app: Object,
+  submitting: boolean,
+  handleSubmit: Function,
+  dispatch: Function,
+};
 
+type State = {
+  hasError: boolean,
+  errorFields: any,
+  errorMessage: any,
+};
+
+class FormBase extends Component<Props, State> {
   constructor(props) {
     super(props);
 
@@ -163,7 +168,4 @@ const mapStateToProps = state => ({
   },
 });
 
-export default connect(
-  mapStateToProps,
-  undefined,
-)(FormBase);
+export default connect(mapStateToProps)(FormBase);

@@ -1,17 +1,17 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-const Title = ({ title, subtitle }) => (
+type Props = {
+  title: string,
+  subtitle?: string,
+};
+
+const Title = ({ title, subtitle }: Props) => (
   <div className={css(styles.container)}>
     <h2 className={css(styles.title)}>{title}</h2>
     <span className={css(styles.subtitle)}>{subtitle}</span>
   </div>
 );
-
-Title.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  subtitle: React.PropTypes.string,
-};
 
 const styles = StyleSheet.create({
   container: {

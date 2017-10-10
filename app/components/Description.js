@@ -1,14 +1,15 @@
+/* @flow */
 import React from 'react';
 
 import { StyleSheet, css } from 'aphrodite';
 
-const Description = ({ text }) => (
+type Props = {
+  text: string
+};
+
+const Description = ({ text }: Props) => (
   <p className={css(styles.container)}>{text}</p>
 );
-
-Description.propTypes = {
-  text: React.PropTypes.string.isRequired,
-};
 
 const styles = StyleSheet.create({
   container: {

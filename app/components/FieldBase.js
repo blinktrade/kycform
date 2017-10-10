@@ -1,7 +1,5 @@
-import React, {
-  Component,
-  PropTypes,
-} from 'react';
+/* @flow */
+import React, { Component } from 'react';
 
 import R from 'ramda';
 import { intlShape } from 'react-intl';
@@ -12,23 +10,20 @@ import FieldFile from './FieldFile';
 import i18n from '../utils/messages';
 import SharedStyles from './styles';
 
-class FieldBase extends Component {
+type Props = {
+  type?: string,
+  name: string,
+  description?: string,
+  component: string | Function,
+  data?: Array<any>,
+  size?: number,
+  renderSeparator: boolean,
+  renderSubLabel: boolean,
+};
+
+class FieldBase extends Component<Props> {
   static contextTypes = {
     intl: intlShape.isRequired,
-  };
-
-  static propTypes = {
-    type: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    component: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-    ]),
-    data: PropTypes.arrayOf(PropTypes.any),
-    size: PropTypes.number,
-    renderSeparator: PropTypes.bool,
-    renderSubLabel: PropTypes.bool,
   };
 
   static defaultProps = {

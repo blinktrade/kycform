@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+/* @flow */
+import React, { Component } from 'react';
 
 import { StyleSheet, css } from 'aphrodite';
 import { bindActionCreators } from 'redux';
@@ -6,16 +7,18 @@ import { connect } from 'react-redux';
 
 import * as AppActions from '../actions';
 
-class FieldLanguage extends Component {
-  static propTypes = {
-    setLanguage: PropTypes.func.isRequired,
-    languages: PropTypes.arrayOf(PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })).isRequired,
-    currentLang: PropTypes.string.isRequired,
-  };
+type Languages = {
+  key: string,
+  value: string,
+};
 
+type Props = {
+  setLanguage: Function,
+  languages: Languages,
+  currentLang: string
+};
+
+class FieldLanguage extends Component<Props> {
   handleChangeLanguage(e) {
     this.props.setLanguage(e.target.value);
   }

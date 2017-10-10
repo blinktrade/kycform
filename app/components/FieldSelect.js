@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 
 import Field from './FieldBase';
@@ -5,7 +6,13 @@ import FieldGroup from './FieldGroup';
 
 const name = 'select';
 
-const FieldSelect = ({ required, groupName, data }) => (
+type Props = {
+  required: boolean,
+  groupName: string,
+  data: Array<any>,
+};
+
+const FieldSelect = ({ required, groupName, data }: Props) => (
   <FieldGroup name={groupName} fields={[name]} required={required}>
     <Field
       name={name}
@@ -16,10 +23,6 @@ const FieldSelect = ({ required, groupName, data }) => (
     />
   </FieldGroup>
 );
-
-FieldSelect.propTypes = {
-  data: React.PropTypes.array,
-};
 
 FieldSelect.validate = (values) => {
   const errors = {};

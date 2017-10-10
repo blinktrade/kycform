@@ -49,13 +49,11 @@ export default function (req, res) {
       <IntlProvider
         key={lang}
         locale={lang}
-        messages={locales[lang]}
-      >
+        messages={locales[lang]}>
         <App />
       </IntlProvider>
     </Provider>
-    )
-  );
+  ));
 
   // Grab the initial state from our Redux store
   const finalState = store.getState();

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+/* @flow */
+import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
@@ -13,11 +14,11 @@ let signature;
 
 const name = 'signature';
 
-class FieldSignature extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-  };
+type Props = {
+  dispatch: Function
+};
 
+class FieldSignature extends Component<Props> {
   static validate = () => (signature && signature.isEmpty() ? { signature: 'error.required' } : {});
 
   signatureToFile = () => {
@@ -81,7 +82,4 @@ const mapStateToProps = state => ({
   form: state.form,
 });
 
-export default connect(
-  mapStateToProps,
-  undefined,
-)(FieldSignature);
+export default connect(mapStateToProps)(FieldSignature);

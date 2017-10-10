@@ -1,7 +1,6 @@
-import React, {
-  Component,
-  PropTypes,
-} from 'react';
+/* @flow */
+import React, { Component } from 'react';
+import type { Node } from 'react';
 
 import R from 'ramda';
 import { connect } from 'react-redux';
@@ -12,17 +11,17 @@ import FieldError from './FieldError';
 
 import i18n from '../utils/messages';
 
-class FieldGroup extends Component {
+type Props = {
+  name: string,
+  form: Object,
+  fields?: Array<any>,
+  required?: boolean,
+  children: Node,
+};
+
+class FieldGroup extends Component<Props> {
   static contextTypes = {
     intl: intlShape.isRequired,
-  };
-
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    form: PropTypes.object,
-    fields: PropTypes.array,
-    required: PropTypes.bool,
-    children: PropTypes.node,
   };
 
   static defaultProps = {

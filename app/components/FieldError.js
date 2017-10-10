@@ -1,9 +1,15 @@
+/* @flow */
 import React from 'react';
 
 import { StyleSheet, css } from 'aphrodite';
 import { FormattedMessage } from 'react-intl';
 
-const FieldError = ({ isActive, hasError }) => !isActive && hasError && (
+type Props = {
+  isActive: boolean,
+  hasError: boolean,
+};
+
+const FieldError = ({ isActive, hasError }: Props) => !isActive && hasError && (
   <div className={css(styles.error)}>
     <FormattedMessage
       id="error.required"
@@ -11,11 +17,6 @@ const FieldError = ({ isActive, hasError }) => !isActive && hasError && (
     />
   </div>
 );
-
-FieldError.propTypes = {
-  isActive: React.PropTypes.bool.isRequired,
-  hasError: React.PropTypes.bool.isRequired,
-};
 
 const styles = StyleSheet.create({
   error: {
