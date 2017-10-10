@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 
 import R from 'ramda';
@@ -6,6 +7,7 @@ import Field from './FieldBase';
 import FieldGroup from './FieldGroup';
 
 import { validateAll } from '../utils/validationUtils';
+import type { Required } from '../utils/types';
 
 const months = [
   { value: '01', option: 'January' },
@@ -39,7 +41,7 @@ const fields = [
 
 const fieldNames = fields.map(x => x.name);
 
-const FieldBirthday = ({ required }) => {
+const FieldBirthday = ({ required }: Required) => {
   const renderSelectField = ({ name, size, data }) => (
     <Field
       key={name}

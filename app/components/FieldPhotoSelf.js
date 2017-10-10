@@ -1,13 +1,15 @@
+/* @flow */
 import React from 'react';
 
 import Field from './FieldBase';
 import FieldGroup from './FieldGroup';
 
 import { validateAll } from '../utils/validationUtils';
+import type { Required } from '../utils/types';
 
 const name = 'photoSelf';
 
-const FieldPhotoSelf = ({ required }) => (
+const FieldPhotoSelf = ({ required }: Required) => (
   <FieldGroup name="photoSelfGroup" required={required} fields={[name]}>
     <Field
       size={6}

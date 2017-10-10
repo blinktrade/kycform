@@ -1,9 +1,14 @@
+/* @flow */
 import React from 'react';
 
 import { StyleSheet, css } from 'aphrodite';
 import { FormattedMessage } from 'react-intl';
 
-const Submit = ({ submitting }) => (
+type Props = {
+  submitting: boolean,
+};
+
+const Submit = ({ submitting }: Props) => (
   <button type="submit" disabled={submitting} className={css(styles.button)}>
     {submitting
       ? <FormattedMessage id="submit.sending" defaultMessage="Sending" />

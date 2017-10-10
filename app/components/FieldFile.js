@@ -1,6 +1,11 @@
+/* @flow */
 import React from 'react';
 
-const FieldFile = ({ input }) => {
+type Props = {
+  input: any,
+};
+
+const FieldFile = ({ input }: Props) => {
   const handeOnChange = (e) => {
     const { onChange } = input;
     onChange(e.target.files[0]);

@@ -1,9 +1,11 @@
+/* @flow */
 import React from 'react';
 
 import Field from './FieldBase';
 import FieldGroup from './FieldGroup';
 
 import { validateAll } from '../utils/validationUtils';
+import type { Required } from '../utils/types';
 
 const fields = [
   { name: 'countryCode', size: 1 },
@@ -13,7 +15,7 @@ const fields = [
 
 const fieldNames = fields.map(x => x.name);
 
-const FieldPhoneNumber = ({ required }) => {
+const FieldPhoneNumber = ({ required }: Required) => {
   const renderField = ({ name, size }, index) => {
     const separator = index !== 2;
     return (

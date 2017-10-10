@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 
 import R from 'ramda';
@@ -6,8 +7,17 @@ import FieldGroup from './FieldGroup';
 
 import countries from '../utils/countries';
 import { validateAll } from '../utils/validationUtils';
+import type { Required } from '../utils/types';
 
-const fields = [
+type FieldType = {
+  name: string,
+  size: number,
+  component?: string,
+  data?: Array<string>,
+  selected?: string,
+}
+
+const fields: Array<Array<FieldType>> = [
   [{ name: 'address', size: 6 }],
   [{ name: 'address2', size: 6 }],
   [{ name: 'city', size: 4 },
@@ -23,8 +33,8 @@ const fields = [
 
 const fieldNames = R.map(R.prop('name'), R.flatten(fields));
 
-const FieldAddress = ({ required }) => {
-  const renderField = ({ name, size, component, data, selected }, colspan) => (
+const FieldAddress = ({ required }: Required) => {
+  const renderField = ({ name, size, component, data, selected }: FieldType, colspan: ?number) => (
     <td key={name} colSpan={colspan}>
       <Field
         name={name}

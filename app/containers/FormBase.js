@@ -11,6 +11,8 @@ import { StyleSheet, css } from 'aphrodite';
 
 import locales from '../utils/locales';
 import { validateForm } from '../utils/validationUtils';
+import type { I18nMessage } from '../utils/types';
+
 import Submit from '../components/Submit';
 import ErrorMessage from '../components/ErrorMessage';
 
@@ -28,14 +30,14 @@ type Props = {
 type State = {
   hasError: boolean,
   errorFields: Array<any>,
-  errorMessage: Object,
+  errorMessage: ?I18nMessage,
 };
 
 class FormBase extends Component<Props, State> {
   state = {
     hasError: false,
     errorFields: [],
-    errorMessage: {},
+    errorMessage: null,
   };
 
   onSubmit = (values) => {
@@ -75,7 +77,7 @@ class FormBase extends Component<Props, State> {
 
   renderErrorMessages() {
     const { hasError, errorMessage, errorFields } = this.state;
-    return hasError && errorFields && (
+    return hasError && errorFields && errorMessage && (
       <ErrorMessage message={errorMessage} values={errorFields} />
     );
   }

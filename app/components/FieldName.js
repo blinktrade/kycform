@@ -1,6 +1,8 @@
+/* @flow */
 import React from 'react';
 
 import { validateAll } from '../utils/validationUtils';
+import type { Required } from '../utils/types';
 
 import Field from './FieldBase';
 import FieldGroup from './FieldGroup';
@@ -13,7 +15,7 @@ const fields = [
 
 const fieldNames = fields.map(x => x.name);
 
-const FieldName = ({ required }) => (
+const FieldName = ({ required }: Required) => (
   <FieldGroup name="nameGroup" required={required} fields={fieldNames}>
     {fields.map(({ name, size }) => <Field key={name} name={name} size={size} />)}
   </FieldGroup>

@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 
 import R from 'ramda';
@@ -6,8 +7,14 @@ import { intlShape } from 'react-intl';
 import { StyleSheet, css } from 'aphrodite';
 
 import i18n from '../utils/messages';
+import type { I18nMessage } from '../utils/types';
 
-const ErrorMessage = ({ message, values }, context) => {
+type Props = {
+  message: I18nMessage,
+  values: Array<any>,
+};
+
+const ErrorMessage = ({ message, values }: Props, context: any) => {
   const { formatMessage } = context.intl;
   const fieldNames = R.compose(
     R.join(', '),
