@@ -34,18 +34,11 @@ class FieldBase extends Component<Props> {
     renderSubLabel: true,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.renderField = this.renderField.bind(this);
-    this.renderOptions = this.renderOptions.bind(this);
-  }
-
   renderSeparator() {
     return <span className={css(SharedStyles.separator)}>-</span>;
   }
 
-  renderSubLabel(id) {
+  renderSubLabel(id: string) {
     const { name, description } = this.props;
     const { formatMessage } = this.context.intl;
     const i18nMessage = description || name;
@@ -57,12 +50,12 @@ class FieldBase extends Component<Props> {
     );
   }
 
-  renderOptions(option, index) {
+  renderOptions = (option: string, index: number) => {
     const { formatMessage } = this.context.intl;
 
     const isObject = R.is(Object);
-    const opt = R.ifElse(isObject, R.prop('option'), R.identity)(option);
-    const value = R.ifElse(isObject, R.prop('value'), R.identity)(option);
+    const opt = R.when(isObject, R.prop('option'))(option);
+    const value = R.when(isObject, R.prop('value'))(option);
 
     return index === 0
       ? <option key={opt} />
@@ -71,7 +64,7 @@ class FieldBase extends Component<Props> {
       </option>;
   }
 
-  renderField({ input, id, name, size, type, data }) {
+  renderField = ({ input, id, name, size, type, data }: any) => {
     const { component, renderSeparator } = this.props;
 
     const inputSize = `inputSize${size}`;
@@ -83,8 +76,7 @@ class FieldBase extends Component<Props> {
           id={id}
           type={type}
           name={name}
-          className={css(SharedStyles.input, SharedStyles[inputSize])}
-        >
+          className={css(SharedStyles.input, SharedStyles[inputSize])}>
           {R.when(
             R.complement(R.isNil),
             R.compose(x => x.map(this.renderOptions), R.insert(0, ''))
@@ -97,7 +89,7 @@ class FieldBase extends Component<Props> {
 
   render() {
     const { name, size, data, type, renderSubLabel } = this.props;
-    const component = type === 'file' ? FieldFile : this.renderField;
+    const component: any = type === 'file' ? FieldFile : this.renderField;
     const id = `id_${name}`;
     return (
       <div key={name} className={css(SharedStyles.fieldContainer)}>

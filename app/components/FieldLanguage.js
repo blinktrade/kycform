@@ -14,7 +14,7 @@ type Languages = {
 
 type Props = {
   setLanguage: Function,
-  languages: Languages,
+  languages: Array<Languages>,
   currentLang: string
 };
 

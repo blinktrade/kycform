@@ -10,16 +10,33 @@ import { StyleSheet, css } from 'aphrodite';
 
 import FieldGroup from './FieldGroup';
 
-let signature;
+let signature: any;
 
 const name = 'signature';
 
 type Props = {
+  required?: boolean,
   dispatch: Function
 };
 
 class FieldSignature extends Component<Props> {
   static validate = () => (signature && signature.isEmpty() ? { signature: 'error.required' } : {});
+
+  captureSignatureRef = (ref) => {
+    signature = ref;
+  }
+
+  changeForm(key: string, value: any): void {
+    this.props.dispatch(change('verification', key, value, true, true));
+  }
+
+  clearSignature = (e) => {
+    e.preventDefault();
+
+    signature.clear();
+    this.changeForm(name, '');
+    return false;
+  }
 
   signatureToFile = () => {
     const base64 = signature.toDataURL();
@@ -29,17 +46,9 @@ class FieldSignature extends Component<Props> {
       .then(buffer => new File([buffer], fileName, { type: 'image/png' }));
   };
 
-  clearSignature(e) {
-    e.preventDefault();
 
-    signature.clear();
-    this.props.dispatch(change('verification', name, ''));
-    return false;
-  }
-
-  handleOnEnd() {
-    const { dispatch } = this.props;
-    this.signatureToFile().then(file => dispatch(change('verification', name, file)));
+  handleOnEnd = () => {
+    this.signatureToFile().then(file => this.changeForm(name, file));
   }
 
   render() {
@@ -55,11 +64,11 @@ class FieldSignature extends Component<Props> {
         <div className={css(styles.signature)}>
           <Signature
             clearButton={false}
-            onEnd={() => this.handleOnEnd()}
-            ref={(component) => { signature = component; }}
+            onEnd={this.handleOnEnd}
+            ref={this.captureSignatureRef}
           />
         </div>
-        <button className={css(styles.clear)} onClick={e => this.clearSignature(e)}>
+        <button className={css(styles.clear)} onClick={this.clearSignature}>
           <FormattedMessage id="signature.clear" defaultMessage="Clear" />
         </button>
       </FieldGroup>
