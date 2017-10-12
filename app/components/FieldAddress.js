@@ -15,7 +15,7 @@ type FieldType = {
   component?: string,
   data?: Array<string>,
   selected?: string,
-}
+};
 
 const fields: Array<Array<FieldType>> = [
   [{ name: 'address', size: 6 }],
@@ -40,7 +40,6 @@ const FieldAddress = ({ required }: Required) => {
         name={name}
         size={size}
         data={data}
-        selected={selected}
         component={component || 'input'}
       />
     </td>

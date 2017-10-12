@@ -64,23 +64,16 @@ class FieldBase extends Component<Props> {
       </option>;
   }
 
-  renderField = ({ input, id, name, size, type, data }: any) => {
-    const { component, renderSeparator } = this.props;
-
-    const inputSize = `inputSize${size}`;
-    const FormComponent = component;
+  renderField = ({ input, id, size, type, data, }: any) => {
+    const { component: FormComponent, renderSeparator } = this.props;
     return (
       <div>
         <FormComponent
           {...input}
           id={id}
           type={type}
-          name={name}
-          className={css(SharedStyles.input, SharedStyles[inputSize])}>
-          {R.when(
-            R.complement(R.isNil),
-            R.compose(x => x.map(this.renderOptions), R.insert(0, ''))
-          )(data)}
+          className={css(SharedStyles.input, SharedStyles[`inputSize${size}`])}>
+          {R.unless(R.isNil, R.compose(R.map(this.renderOptions), R.insert(0, '')))(data)}
         </FormComponent>
         {renderSeparator && this.renderSeparator()}
       </div>

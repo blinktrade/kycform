@@ -19,16 +19,24 @@ type Props = {
 };
 
 class FieldLanguage extends Component<Props> {
-  handleChangeLanguage(e) {
+  handleChangeLanguage = (e) => {
     this.props.setLanguage(e.target.value);
+  }
+
+  renderOption({ key, value }) {
+    return (
+      <option key={key} id={key} value={key}>
+        {value}
+      </option>
+    );
   }
 
   render() {
     const { languages, currentLang } = this.props;
     return (
       <div className={css(styles.container)}>
-        <select onChange={e => this.handleChangeLanguage(e)} defaultValue={currentLang}>
-          {languages.map(x => <option key={x.key} id={x.key} value={x.key}>{x.value}</option>)}
+        <select onChange={this.handleChangeLanguage} defaultValue={currentLang}>
+          {languages.map(this.renderOption)}
         </select>
       </div>
     );
