@@ -7,12 +7,20 @@
     "build": "cross-env NODE_ENV=production webpack -p",
     "lint": "$(npm bin)/eslint app",
     "flow": "flow",
+    "test": "jest",
     "manage:translations": "$(npm bin)/babel app --plugins react-intl app/**/*.js && babel-node ./app/utils/translationRunner.js",
     "deploy": "gcloud app deploy"
   },
   "engines": {
     "node": ">=6.11.0",
     "npm": "4.6.1"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFiles": [
+      "raf/polyfill",
+      "<rootDir>/app/utils/setupTest.js"
+    ]
   },
   "dependencies": {
     "@google-cloud/storage": "0.3.0",
@@ -54,11 +62,17 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
+    "babel-jest": "21.2.0",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.4.0",
-    "react-intl-translations-manager": "^5.0.1"
+    "jest": "21.2.1",
+    "raf": "^3.4.0",
+    "react-intl-translations-manager": "^5.0.1",
+    "react-test-renderer": "^16.0.0"
   }
 }
