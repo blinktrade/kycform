@@ -1,6 +1,10 @@
 /* @flow */
 import React, { Component } from 'react';
 import type { Node } from 'react';
+import {
+  getFormMeta,
+  getFormSyncErrors
+} from 'redux-form';
 
 import R from 'ramda';
 import { connect } from 'react-redux';
@@ -13,7 +17,9 @@ import i18n from '../utils/messages';
 
 type Props = {
   name: string,
-  form: Object,
+  active: string,
+  syncErrors: Object,
+  formMeta: Object,
   fields?: Array<any>,
   required?: boolean,
   children: Node,
@@ -28,6 +34,12 @@ class FieldGroup extends Component<Props> {
     required: true,
     fields: [],
   };
+
+  containsInFields = R.compose(
+    R.contains(true),
+    R.map(R.contains(R.__, this.props.fields)),
+    R.keys,
+  )
 
   renderRequiredIndicator() {
     return (
@@ -48,19 +60,13 @@ class FieldGroup extends Component<Props> {
   }
 
   render() {
-    const { children, name, fields, form } = this.props;
-    const { syncErrors: errors } = form;
-    const isActive = R.and(
-      R.has('active', form),
-      R.contains(R.prop('active', form), fields)
-    );
-    const contains = R.compose(
-      R.contains(true),
-      R.map(R.contains(R.__, fields)),
-      R.keys,
-    );
+    const { children, name, fields, active, formMeta, syncErrors } = this.props;
 
-    const hasError = R.and(contains(form.fields), contains(errors));
+    const isActive = R.and(R.not(R.isNil(active)), R.contains(active, fields));
+    const hasError = R.and(
+      this.containsInFields(formMeta),
+      this.containsInFields(syncErrors)
+    );
 
     const activeStyle = isActive ? styles.active : false;
     const errorStyle = hasError ? styles.error : false;
@@ -71,8 +77,6 @@ class FieldGroup extends Component<Props> {
         <div className={css(styles.fields)}>
           {React.Children.map(children, child => child)}
           <FieldError
-            form={form}
-            fields={fields}
             hasError={hasError}
             isActive={isActive}
           />
@@ -114,10 +118,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  form: state.form.verification,
+  active: state.form.verification.active,
+  formMeta: getFormMeta('verification')(state),
+  syncErrors: getFormSyncErrors('verification')(state)
 });
 
-export default connect(
-  mapStateToProps,
-  undefined,
-)(FieldGroup);
+export default connect(mapStateToProps)(FieldGroup);
