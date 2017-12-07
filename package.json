@@ -8,6 +8,7 @@
     "lint": "$(npm bin)/eslint app",
     "flow": "flow",
     "test": "jest",
+    "test:watch": "jest --watch",
     "manage:translations": "$(npm bin)/babel app --plugins react-intl app/**/*.js && babel-node ./app/utils/translationRunner.js",
     "deploy": "gcloud app deploy"
   },

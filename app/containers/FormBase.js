@@ -162,4 +162,4 @@ const mapStateToProps = state => ({
   },
 });
 
-export default connect(mapStateToProps)(FormBase);
+export default connect(mapStateToProps, null, null, { withRef: true })(FormBase);

@@ -47,7 +47,8 @@ export function shallow(node, initialState) {
 
 export function mount(node, initialState) {
   const store = createTestStore(initialState);
-  return enzyme.mount(clone(node, store), getContext(store));
+  const wrapper = enzyme.mount(clone(node, store), getContext(store));
+  return { store, wrapper };
 }
 
 export function renderer(node, store = {}, props = { locale: 'en' }) {
