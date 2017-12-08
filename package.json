@@ -64,6 +64,7 @@
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "babel-jest": "21.2.0",
+    "babel-plugin-ramda": "^1.4.3",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "eslint": "^3.19.0",
